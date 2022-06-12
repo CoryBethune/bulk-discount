@@ -92,9 +92,14 @@ RSpec.describe 'discount index' do
 
     click_link "Create New Discount"
     expect(current_path).to eq("/merchants/#{@merch_1.id}/discounts/new")
-    latest = Discounts.last
 
-    within("discount-#{latest.id}") do
+    fill_in "Quantity", with: 22
+    fill_in "Percent Discount", with: 13
+    click "Submit"
+    expect(current_path).to eq("/merchants/#{@merch_1.id}/discounts")
+    
+    latest = Discount.last
+    within("#discount-#{latest.id}") do
       expect(page).to have_content(latest.quantity)
       expect(page).to have_content(latest.percent_discount)
       expect(page).to_not have_content(@discount_2.quantity)
