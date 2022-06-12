@@ -70,12 +70,18 @@ RSpec.describe 'discount index' do
       expect(page).to have_content(@discount_1.percent_discount)
       expect(page).to_not have_content(@discount_3.quantity)
       expect(page).to_not have_content(@discount_3.percent_discount)
+
+      click_link "Discount Show Page"
+      expect(current_path).to eq "/discounts/#{@discount_1}"
     end
     within("discount-#{@discount_2.id}") do
       expect(page).to have_content(@discount_2.quantity)
       expect(page).to have_content(@discount_2.percent_discount)
       expect(page).to_not have_content(@discount_3.quantity)
       expect(page).to_not have_content(@discount_3.percent_discount)
+
+      click_link "Discount Show Page"
+      expect(current_path).to eq "/discounts/#{@discount_2}"
     end
   end
 
