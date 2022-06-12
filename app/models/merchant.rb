@@ -5,7 +5,7 @@ class Merchant < ApplicationRecord
   has_many :transactions, through: :invoices
   has_many :customers, through: :invoices
   has_many :transactions, through: :invoices
-
+  has_many :discounts
   validates_presence_of :name, :status
 
   def items_ready_to_ship

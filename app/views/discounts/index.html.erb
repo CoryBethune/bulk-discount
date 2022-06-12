@@ -1,0 +1,7 @@
+<h1>Bulk Discounts</h1>
+<% @discounts.each do |discount| %>
+  <div id="discount-<%= discount.id %>">
+    Quantity: <%= discount.quantity %>
+    Percentage: <%= discount.percent_discount %>%
+  </div>
+<% end %>
