@@ -7,7 +7,7 @@ RSpec.describe 'discount index' do
 
     @discount_1 = @merch_1.discounts.create!(quantity: 10, percent_discount: 30)
     @discount_2 = @merch_1.discounts.create!(quantity: 20, percent_discount: 45)
-    @discount_3 = @merch_2.discounts.create!(quantity: 5, percent_discount: 15)
+    @discount_3 = @merch_2.discounts.create!(quantity: 50, percent_discount: 15)
 
     @item_1 = @merch_1.items.create!(name: "Two-Leg Pantaloons", description: "pants built for people with two legs", unit_price: 5000)
     @item_2 = @merch_1.items.create!(name: "Two-Leg Shorts", description: "shorts built for people with two legs", unit_price: 3000)
@@ -63,25 +63,49 @@ RSpec.describe 'discount index' do
   end
 
   it "displays all of the discounts associated with a merchant and links to each discounts show page" do
-    visit "merchants/#{@merch_1.id}/discounts"
+    visit "/merchants/#{@merch_1.id}/discounts"
 
-    within("discount-#{@discount_1.id}") do
+    within("#discount-#{@discount_1.id}") do
       expect(page).to have_content(@discount_1.quantity)
       expect(page).to have_content(@discount_1.percent_discount)
       expect(page).to_not have_content(@discount_3.quantity)
       expect(page).to_not have_content(@discount_3.percent_discount)
 
       click_link "Discount Show Page"
-      expect(current_path).to eq "/discounts/#{@discount_1}"
+      expect(current_path).to eq("/merchants/#{@merch_1.id}/discounts/#{@discount_1.id}")
     end
-    within("discount-#{@discount_2.id}") do
+
+    visit "/merchants/#{@merch_1.id}/discounts"
+    within("#discount-#{@discount_2.id}") do
       expect(page).to have_content(@discount_2.quantity)
       expect(page).to have_content(@discount_2.percent_discount)
       expect(page).to_not have_content(@discount_3.quantity)
       expect(page).to_not have_content(@discount_3.percent_discount)
 
       click_link "Discount Show Page"
-      expect(current_path).to eq "/discounts/#{@discount_2}"
+      expect(current_path).to eq("/merchants/#{@merch_1.id}/discounts/#{@discount_2.id}")
+    end
+  end
+
+  it "has a link to create a new discount and displays the newly created discount" do
+    visit "/merchants/#{@merch_1.id}/discounts"
+
+    click_link "Create New Discount"
+    expect(current_path).to eq("/merchants/#{@merch_1.id}/discounts/new")
+
+    visit "/merchants/#{@merch_1.id}/discounts/new"
+
+    fill_in "Quantity", with: 22
+    fill_in "Percent Discount", with: 13
+    click_on "Submit"
+    expect(current_path).to eq("/merchants/#{@merch_1.id}/discounts")
+
+    latest = Discount.last
+    within("#discount-#{latest.id}") do
+      expect(page).to have_content(latest.quantity)
+      expect(page).to have_content(latest.percent_discount)
+      expect(page).to_not have_content(@discount_2.quantity)
+      expect(page).to_not have_content(@discount_2.percent_discount)
     end
   end
 

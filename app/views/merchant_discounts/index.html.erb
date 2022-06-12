@@ -1,0 +1,10 @@
+<h1>Bulk Discounts</h1>
+<%= link_to "Create New Discount", "/merchants/#{@merchant.id}/discounts/new" %>
+
+<% @merchant.discounts.each do |discount| %>
+  <div id="discount-<%= discount.id %>">
+    Quantity: <%= discount.quantity %>
+    Percentage: <%= discount.percent_discount %>%
+    <%= link_to "Discount Show Page", "/merchants/#{@merchant.id}/discounts/#{discount.id}" %>
+  </div>
+<% end %>
