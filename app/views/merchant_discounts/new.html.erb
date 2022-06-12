@@ -1,6 +1,6 @@
 <h1>Create A New Discount</h1>
 
-<%= form_with url: "/merchants/#{params[:merchant_id]}/discounts", method: :get do |f| %>
+<%= form_with url: "/merchants/#{params[:merchant_id]}/discounts", method: :post do |f| %>
   <%= f.label :quantity, "Quantity" %>
   <%= f.text_field :quantity %>
   <%= f.label :percent_discount, "Percent Discount" %>

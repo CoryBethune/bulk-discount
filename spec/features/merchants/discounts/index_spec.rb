@@ -94,7 +94,7 @@ RSpec.describe 'discount index' do
     expect(current_path).to eq("/merchants/#{@merch_1.id}/discounts/new")
 
     visit "/merchants/#{@merch_1.id}/discounts/new"
-    
+
     fill_in "Quantity", with: 22
     fill_in "Percent Discount", with: 13
     click_on "Submit"
