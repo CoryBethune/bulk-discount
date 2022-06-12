@@ -72,7 +72,7 @@ RSpec.describe 'discount index' do
       expect(page).to_not have_content(@discount_3.percent_discount)
 
       click_link "Discount Show Page"
-      expect(current_path).to eq "/discounts/#{@discount_1}"
+      expect(current_path).to eq("/discounts/#{@discount_1}")
     end
     within("discount-#{@discount_2.id}") do
       expect(page).to have_content(@discount_2.quantity)
@@ -81,7 +81,22 @@ RSpec.describe 'discount index' do
       expect(page).to_not have_content(@discount_3.percent_discount)
 
       click_link "Discount Show Page"
-      expect(current_path).to eq "/discounts/#{@discount_2}"
+      expect(current_path).to eq("/discounts/#{@discount_2}")
+    end
+  end
+
+  it "has a link to create a new discount and displays the newly created discount" do
+    visit "merchants/#{@merch_1.id}/discounts"
+
+    click_link "Create New Discount"
+    expect(current_path).to eq("merchants/#{@merch_1.id}/discounts/new")
+    latest = Discounts.last
+
+    within("discount-#{latest.id}") do
+      expect(page).to have_content(latest.quantity)
+      expect(page).to have_content(latest.percent_discount)
+      expect(page).to_not have_content(@discount_2.quantity)
+      expect(page).to_not have_content(@discount_2.percent_discount)
     end
   end
 
