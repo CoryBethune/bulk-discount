@@ -97,7 +97,7 @@ RSpec.describe 'discount index' do
     
     fill_in "Quantity", with: 22
     fill_in "Percent Discount", with: 13
-    click "Submit"
+    click_on "Submit"
     expect(current_path).to eq("/merchants/#{@merch_1.id}/discounts")
 
     latest = Discount.last
