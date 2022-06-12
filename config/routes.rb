@@ -4,6 +4,10 @@ Rails.application.routes.draw do
 
   get "/merchants/:merchant_id/dashboard", to: 'merchants#show'
 
+  get "/merchants/:merchant_id/discounts", to: 'discounts#index'
+
+  resources :discounts, only: [:show]
+
   resources :merchants, only: [:show] do
     resources :items, controller: :merchant_items
   end
@@ -12,7 +16,7 @@ Rails.application.routes.draw do
     resources :invoices, only: [:index, :show], controller: :merchant_invoices
     resources :invoices, only: [:update], controller: :invoice_items
   end
- 
+
   get "/admin", to: "admin#show"
 
   scope :admin do
