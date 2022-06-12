@@ -1,8 +1,8 @@
 <h1>Bulk Discounts</h1>
-<% @discounts.each do |discount| %>
+<% @merchant.discounts.each do |discount| %>
   <div id="discount-<%= discount.id %>">
     Quantity: <%= discount.quantity %>
     Percentage: <%= discount.percent_discount %>%
-    <%= link_to "Discount Show Page", "/discounts/#{discount.id}" %>
+    <%= link_to "Discount Show Page", "/merchants/#{@merchant.id}/discounts/#{discount.id}" %>
   </div>
 <% end %>
