@@ -70,4 +70,26 @@ RSpec.describe 'Mercant discount show page' do
     expect(page).to_not have_content("Percentage: #{@discount_2.quantity}")
     expect(page).to_not have_content("Percentage: #{@discount_2.percent_discount}")
   end
+
+  it "allows for editing the discounts values" do
+    visit "/merchants/#{@merch_1.id}/discounts/#{@discount_1.id}"
+
+    expect(page).to have_content("Quantity: 10")
+    expect(page).to have_content("Percentage: 30")
+
+    click_link "Edit This Discount"
+    expect(current_path).to eq("/merchants/#{@merch_1.id}/discounts/#{@discount_1.id}/edit")
+
+    expect(page).to have_field('Quantity', with: 10)
+    expect(page).to have_field('Percent Discount', with: 30)
+
+    fill_in 'Quantity', with: 1234
+    fill_in 'Percent Discount', with: 4321
+    click_on 'Submit'
+    expect(current_path).to eq("/merchants/#{@merch_1.id}/discounts/#{@discount_1.id}")
+
+    expect(page).to have_content("Quantity: 1234")
+    expect(page).to have_content("Percentage: 4321")
+
+  end
 end
