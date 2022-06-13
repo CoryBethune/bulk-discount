@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'discount index' do
+RSpec.describe 'Mercant discount show page' do
   before(:each) do
     @merch_1 = Merchant.create!(name: "Two-Legs Fashion")
     @merch_2 = Merchant.create!(name: "Paper Bois")
@@ -62,67 +62,12 @@ RSpec.describe 'discount index' do
     @ii_19 = InvoiceItem.create!(item_id: @item_5.id, invoice_id: @invoice_15.id, quantity: 700, unit_price: @item_4.unit_price, status: 0)
   end
 
-  it "displays all of the discounts associated with a merchant and links to each discounts show page" do
-    visit "/merchants/#{@merch_1.id}/discounts"
+  it "Displays the discounts information" do
+    visit "/merchants/#{@merch_1.id}/discounts/#{@discount_1.id}"
 
-    within("#discount-#{@discount_1.id}") do
-      expect(page).to have_content(@discount_1.quantity)
-      expect(page).to have_content(@discount_1.percent_discount)
-      expect(page).to_not have_content(@discount_3.quantity)
-      expect(page).to_not have_content(@discount_3.percent_discount)
-
-      click_link "Discount Show Page"
-      expect(current_path).to eq("/merchants/#{@merch_1.id}/discounts/#{@discount_1.id}")
-    end
-
-    visit "/merchants/#{@merch_1.id}/discounts"
-    within("#discount-#{@discount_2.id}") do
-      expect(page).to have_content(@discount_2.quantity)
-      expect(page).to have_content(@discount_2.percent_discount)
-      expect(page).to_not have_content(@discount_3.quantity)
-      expect(page).to_not have_content(@discount_3.percent_discount)
-
-      click_link "Discount Show Page"
-      expect(current_path).to eq("/merchants/#{@merch_1.id}/discounts/#{@discount_2.id}")
-    end
+    expect(page).to have_content("Quantity: #{@discount_1.quantity}")
+    expect(page).to have_content("Percentage: #{@discount_1.percent_discount}")
+    expect(page).to_not have_content("Percentage: #{@discount_2.quantity}")
+    expect(page).to_not have_content("Percentage: #{@discount_2.percent_discount}")
   end
-
-  it "has a link to create a new discount and displays the newly created discount" do
-    visit "/merchants/#{@merch_1.id}/discounts"
-
-    click_link "Create New Discount"
-    expect(current_path).to eq("/merchants/#{@merch_1.id}/discounts/new")
-
-    visit "/merchants/#{@merch_1.id}/discounts/new"
-
-    fill_in "Quantity", with: 22
-    fill_in "Percent Discount", with: 13
-    click_on "Submit"
-    expect(current_path).to eq("/merchants/#{@merch_1.id}/discounts")
-
-    latest = Discount.last
-    within("#discount-#{latest.id}") do
-      expect(page).to have_content(latest.quantity)
-      expect(page).to have_content(latest.percent_discount)
-      expect(page).to_not have_content(@discount_2.quantity)
-      expect(page).to_not have_content(@discount_2.percent_discount)
-    end
-  end
-
-  it "has a link to delete any given discount" do
-    visit "/merchants/#{@merch_1.id}/discounts"
-    save_and_open_page
-    expect(page).to have_content(@discount_1.quantity)
-    expect(page).to have_content(@discount_1.percent_discount)
-
-    within("#discount-#{@discount_1.id}") do
-      click_link "Delete This Discount"
-      # binding.pry
-      # expect(current_path).to eq("/merchants/#{@merch_1.id}/discounts/#{@discount_1.id}")
-    end
-    save_and_open_page
-    expect(page).to_not have_content(@discount_1.quantity)
-    expect(page).to_not have_content(@discount_1.percent_discount)
-  end
-
 end
