@@ -111,7 +111,7 @@ RSpec.describe 'discount index' do
 
   it "has a link to delete any given discount" do
     visit "/merchants/#{@merch_1.id}/discounts"
-
+    save_and_open_page
     expect(page).to have_content(@discount_1.quantity)
     expect(page).to have_content(@discount_1.percent_discount)
 

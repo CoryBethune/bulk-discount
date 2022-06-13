@@ -6,5 +6,6 @@
     Quantity: <%= discount.quantity %>
     Percentage: <%= discount.percent_discount %>%
     <%= link_to "Discount Show Page", "/merchants/#{@merchant.id}/discounts/#{discount.id}" %>
+    <%= link_to "Delete This Discount", "/merchants/#{@merchant.id}/discounts/#{discount.id}", method: :delete %>
   </div>
 <% end %>
