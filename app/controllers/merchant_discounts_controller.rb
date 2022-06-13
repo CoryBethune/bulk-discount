@@ -16,4 +16,8 @@ class MerchantDiscountsController < ApplicationController
     end
   end
 
+  def destroy
+    Discount.find(params[:discount_id]).delete
+    redirect_to action: :index
+  end
 end
