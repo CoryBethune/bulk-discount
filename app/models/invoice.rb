@@ -24,7 +24,8 @@ class Invoice < ApplicationRecord
 
   def total_revenue_discounted
     invoice_items.joins(:discounts)
-                (invoice_item.quantity * (invoice_items.unit_price * (discounts.percent_discount / 100)))
+                 # maximum(:percent_discount)
+                 (invoice_item.quantity * (invoice_items.unit_price * (discounts.maximum(:percent_discount) / 100)))
                  where(invoice_items.quantity >= discounts.quantity)
   end
 end
