@@ -3,3 +3,5 @@
 <h3>Quantity: <%= @discount.quantity %></h3>
 
 <h3>Percentage: <%= @discount.percent_discount %></h3>
+
+<%= link_to "Edit This Discount", "/merchants/#{params[:merchant_id]}/discounts/#{params[:discount_id]}/edit" %>

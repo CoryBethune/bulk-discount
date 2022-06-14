@@ -1,0 +1,9 @@
+<h1>Edit A Disount</h1>
+
+<%= form_with url: "/merchants/#{params[:merchant_id]}/discounts/#{params[:discount_id]}/update", method: :put do |f| %>
+  <%= f.label :quantity, "Quantity" %>
+  <%= f.text_field :quantity, :value => @discount.quantity %>
+  <%= f.label :percent_discount, "Percent Discount" %>
+  <%= f.text_field :percent_discount, :value => @discount.percent_discount %>
+  <%= f.submit "Submit" %>
+<% end %>

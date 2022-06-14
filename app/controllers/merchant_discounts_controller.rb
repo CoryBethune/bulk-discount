@@ -7,6 +7,15 @@ class MerchantDiscountsController < ApplicationController
     @discount = Discount.find(params[:discount_id])
   end
 
+  def edit
+    @discount = Discount.find(params[:discount_id])
+  end
+
+  def update
+    Discount.find_by(id: params[:discount_id]).update(quantity: params[:quantity], percent_discount: params[:percent_discount])
+    redirect_to action: :show
+  end
+
   def new
   end
 
