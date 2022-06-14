@@ -21,4 +21,4 @@
 <% end %>
 
 Total Revenue: $<%= ('%.2f' % @invoice.total_revenue.fdiv(100)) %>
-<% binding.pry %>
+Total Revenue with Discounts: $<%=('%.2f' % @invoice.total_revenue_discounted.fdiv(100))%>

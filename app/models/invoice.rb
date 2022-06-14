@@ -23,9 +23,23 @@ class Invoice < ApplicationRecord
   end
 
   def total_revenue_discounted
-    invoice_items.joins(:discounts)
-                 # maximum(:percent_discount)
-                 (invoice_item.quantity * (invoice_items.unit_price * (discounts.maximum(:percent_discount) / 100)))
-                 where(invoice_items.quantity >= discounts.quantity)
+    wip = invoice_items.joins(:discounts)
+                 .where('invoice_items.quantity >= discounts.quantity')
+                 .select('invoice_items.id, max(invoice_items.quantity * invoice_items.unit_price * (discounts.percent_discount / 100.0)) as total_discount')
+                 .group('invoice_items.id')
+                 .sum(&:total_discount)
   end
+
+  # def total_revenue_discounted   upcoming user story
+  #   wip = invoice_items.joins(:discounts)
+  #                .where('invoice_items.quantity >= discounts.quantity')
+  #                .select('invoice_items.id, max(invoice_items.quantity * invoice_items.unit_price * (discounts.percent_discount / 100.0)) as total_discount')
+  #                .group('invoice_items.id, discounts.id')
+                   # .order(total_discount: :desc)
+  #     binding.pry
+  # end
+
+
+
+
 end
