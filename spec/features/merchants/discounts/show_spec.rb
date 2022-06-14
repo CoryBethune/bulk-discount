@@ -90,6 +90,5 @@ RSpec.describe 'Mercant discount show page' do
 
     expect(page).to have_content("Quantity: 1234")
     expect(page).to have_content("Percentage: 4321")
-
   end
 end
