@@ -4,6 +4,9 @@ RSpec.describe "merchant's invoice show page", type: :feature do
   before :each do
     @merch_1 = Merchant.create!(name: "Two-Legs Fashion")
 
+    @discount_1 = @merch_1.discounts.create!(quantity: 10, percent_discount: 30)
+    @discount_2 = @merch_1.discounts.create!(quantity: 20, percent_discount: 45)
+
     @item_1 = @merch_1.items.create!(name: "Two-Leg Pantaloons", description: "pants built for people with two legs", unit_price: 5000)
     @item_2 = @merch_1.items.create!(name: "Two-Leg Shorts", description: "shorts built for people with two legs", unit_price: 3000)
 
@@ -62,20 +65,42 @@ RSpec.describe "merchant's invoice show page", type: :feature do
     @ii_3 = InvoiceItem.create!(item_id: @item_3.id, invoice_id: @invoice_1.id, quantity: 1, unit_price: @item_3.unit_price, status: 2)
     @ii_4 = InvoiceItem.create!(item_id: @item_4.id, invoice_id: @invoice_1.id, quantity: 1, unit_price: @item_4.unit_price, status: 2)
 
-
     visit "/merchants/#{@merch_1.id}/invoices/#{@invoice_1.id})"
+
     expect(page).to have_content("Total Revenue: $610.00")
   end
 
   it "can change the invoice status" do
     visit "/merchants/#{@merch_1.id}/invoices/#{@invoice_1.id}"
     #within the first item section
-      within "#ii-#{@ii_1.id}" do
-        expect(find_field('ii_status').value).to eq("packaged")
-        select "pending"
-        click_button "Update Invoice"
-        expect(current_path).to eq( "/merchants/#{@merch_1.id}/invoices/#{@invoice_1.id}" )
-        expect(page).to have_content('pending')
-      end
+    within "#ii-#{@ii_1.id}" do
+      expect(find_field('ii_status').value).to eq("packaged")
+      select "pending"
+      click_button "Update Invoice"
+      expect(current_path).to eq( "/merchants/#{@merch_1.id}/invoices/#{@invoice_1.id}" )
+      expect(page).to have_content('pending')
+    end
+  end
+
+  it "displays the total revenue with bulk discounts applied" do
+    merch1 = Merchant.create!(name: 'Corys Market')
+
+    discount1 = merch1.discounts.create!(quantity: 10, percent_discount: 30)
+    discount2 = merch1.discounts.create!(quantity: 20, percent_discount: 45)
+    # discount3 = merch2.discounts.create!(quantity: 50, percent_discount: 15)
+
+    item1 = merch1.items.create!(name: 'Item1', description: 'This is an item.', unit_price: 10000)
+    item2 = merch1.items.create!(name: 'Item2', description: 'This is an item too.', unit_price: 20000)
+
+    cust1 = Customer.create!(first_name: "Debbie", last_name: "Twolegs")
+
+    invoice1 = cust1.invoices.create!(status: 1)
+
+    ii1 = InvoiceItem.create!(item_id: item1.id, invoice_id: invoice1.id, quantity: 10, unit_price: item1.unit_price, status: 0)
+    ii2 = InvoiceItem.create!(item_id: item2.id, invoice_id: invoice1.id, quantity: 10, unit_price: item2.unit_price, status: 0)
+
+    visit "/merchants/#{merch1.id}/invoices/#{invoice1.id}"
+
+    expect(page).to have_content("Total Discounted Revenue: $")
   end
 end

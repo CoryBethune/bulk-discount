@@ -3,6 +3,8 @@ class Invoice < ApplicationRecord
   has_many :transactions, dependent: :destroy
   has_many :invoice_items
   has_many :items, through: :invoice_items
+  has_many :merchants, through: :items
+  has_many :discounts, through: :merchants
 
   enum status: ['cancelled','in progress', 'completed']
 
@@ -18,5 +20,9 @@ class Invoice < ApplicationRecord
 
   def merchant_object(id)
     Merchant.find(id)
+  end
+
+  def total_revenue_discounted
+
   end
 end

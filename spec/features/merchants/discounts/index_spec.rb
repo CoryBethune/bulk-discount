@@ -114,7 +114,7 @@ RSpec.describe 'discount index' do
 
     expect(page).to have_content(@discount_1.quantity)
     expect(page).to have_content(@discount_1.percent_discount)
-    save_and_open_page
+    
     within("#discount-#{@discount_1.id}") do
       click_link "Delete This Discount"
       # binding.pry
