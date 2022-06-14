@@ -101,7 +101,7 @@ RSpec.describe "merchant's invoice show page", type: :feature do
 
       visit "/merchants/#{merch1.id}/invoices/#{invoice1.id}"
       save_and_open_page
-      expect(page).to have_content("Total Discounted Revenue: $")
+      expect(page).to have_content("Total Revenue with Discount: $2100.00")
     end
   end
 end

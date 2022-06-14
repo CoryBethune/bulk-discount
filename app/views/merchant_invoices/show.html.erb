@@ -20,5 +20,5 @@
   <% end %>
 <% end %>
 
-Total Revenue: $<%= ('%.2f' % @invoice.total_revenue.fdiv(100)) %>
-Total Revenue with Discounts: $<%=('%.2f' % @invoice.total_revenue_discounted.fdiv(100))%>
+Total Revenue: $<%= ('%.2f' % @invoice.total_revenue.fdiv(100)) %><br>
+Total Revenue with Discounts: $<%=('%.2f' % (@invoice.total_revenue.fdiv(100) - @invoice.total_revenue_discounted.fdiv(100)))%>
