@@ -98,7 +98,7 @@ RSpec.describe 'Admin invoices show page' do
     expect(page).to have_select(:status, :selected => "completed")
   end
 
-  it "displays " do
+  it "displays the total revenue and the total revenue with discount" do
     @merch1 = Merchant.create!(name: 'Corys Market')
 
     @discount1 = @merch1.discounts.create!(quantity: 10, percent_discount: 30)
