@@ -9,14 +9,14 @@ RSpec.describe 'tests for API service methods' do
 
   xit "can display the avatars for all the team members on every page" do
     visit '/admin/invoices'
-    
+
     expect(page).to have_css("img[src='https://avatars.githubusercontent.com/u/98759023?v=4']")
     expect(page).to have_css("img[src='https://avatars.githubusercontent.com/u/60715457?v=4']")
     expect(page).to have_css("img[src='https://avatars.githubusercontent.com/u/95403666?v=4']")
     expect(page).to have_css("img[src='https://avatars.githubusercontent.com/u/98788282?v=4']")
     expect(page).to have_css("img[src='https://avatars.githubusercontent.com/u/97638081?v=4']")
   end
-  
+
   xit 'can display all contributor usernames' do
     visit '/admin/merchants'
     expect(page).to have_content("devAndrewK")
@@ -42,5 +42,15 @@ RSpec.describe 'tests for API service methods' do
     expect(page).to have_content("StephenWilkens has _ commits")
     expect(page).to have_content("ColinReinhart has _ commits")
 
+  end
+
+  it "displays the next public holiday on the merchant discounts index page" do
+    @merch1 = Merchant.create!(name: 'Corys Place')
+
+    visit "/merchants/#{@merch1.id}/discounts"
+
+    within("#header") do
+      expect(page).to have_content("")
+    end
   end
 end
