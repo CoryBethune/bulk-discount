@@ -1,5 +1,10 @@
 <header id="header">
-
+  <h3>Upcoming Holidays</h3>
+  <% @the_holidays.each do |k, v| %>
+    <ol>
+      <li><%= k %> is on <%= v %>.
+    </ol>
+  <% end %>
 </header>
 
 <h1>Bulk Discounts</h1>

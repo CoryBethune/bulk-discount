@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   # before_action :usernames
   # before_action :pr_count
   # before_action :avatar
-  # before_action :holiday
+  before_action :holiday
 
   def welcome
 

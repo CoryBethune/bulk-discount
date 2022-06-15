@@ -51,7 +51,9 @@ RSpec.describe 'tests for API service methods' do
 
     within("#header") do
       expect(page).to have_content("Upcoming Holidays")
-      
+      expect(page).to have_content("Juneteenth is on 2022-06-20.")
+      expect(page).to have_content("Independence Day is on 2022-07-04.")
+      expect(page).to have_content("Labour Day is on 2022-09-05.")
     end
   end
 end

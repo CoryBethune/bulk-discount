@@ -5,9 +5,8 @@ class Holiday
     collector = {}
     parsed.each do |hash|
       break if collector.count == 3
-      collector[hash[:date]] = hash[:name]
+      collector[hash[:name]] = hash[:date]
     end
     @the_three_holidays = collector
-    binding.pry
   end
 end
