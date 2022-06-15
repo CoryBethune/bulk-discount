@@ -9,6 +9,7 @@
   <li>Created at: <%= @invoice.created_at.strftime("%A, %B %d, %Y") %></li>
 
   <li>Total Revenue: $<%= ('%.2f' % @invoice.total_revenue.fdiv(100)) %></li>
+  <li>Total Revenue with Discount: $<%=('%.2f' % (@invoice.total_revenue.fdiv(100) - @invoice.total_revenue_discounted.fdiv(100)))%></li>
   <li> Customer Name: <%= @invoice.customer.first_name %> <%= @invoice.customer.last_name %></li>
 </ul>
 
@@ -18,6 +19,3 @@
   <p>Unit price: $<%= ('%.2f' % ii.unit_price.fdiv(100)) %></p>
   <p>Status: <%= ii.status %></p>
 <% end %>
-
-<p>Total Revenue: $<%= ('%.2f' % @invoice.total_revenue.fdiv(100)) %></p><br>
-<p>Total Revenue with Discount: $<%=('%.2f' % (@invoice.total_revenue.fdiv(100) - @invoice.total_revenue_discounted.fdiv(100)))%></p>
