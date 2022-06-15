@@ -50,7 +50,8 @@ RSpec.describe 'tests for API service methods' do
     visit "/merchants/#{@merch1.id}/discounts"
 
     within("#header") do
-      expect(page).to have_content("")
+      expect(page).to have_content("Upcoming Holidays")
+      
     end
   end
 end

@@ -5,13 +5,13 @@ class ApplicationController < ActionController::Base
   # before_action :repo_name,
   #               :number_of_commits
 
-  
+
 
   # before_action :repo_name
   # before_action :usernames
   # before_action :pr_count
   # before_action :avatar
-
+  # before_action :holiday
 
   def welcome
 
@@ -23,6 +23,10 @@ class ApplicationController < ActionController::Base
     errors.full_messages.join(', ')
   end
 
+  def holiday
+    holiday_search = HolidaySearch.new
+    @the_holidays = holiday_search.next_holidays
+  end
   # def repo_name
   #   repo_search = RepoSearch.new
   #   @repo = repo_search.repo_information
