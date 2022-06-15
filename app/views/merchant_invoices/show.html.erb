@@ -10,7 +10,9 @@
     <h3><%= ii.item.name %></h3>
     Quantity: <%= ii.quantity %><br>
     Unit Price: $<%= '%.2f' % ii.item.unit_price_to_dollars %><br>
-    Discount: <%= link_to "#{@invoice.top_discount.id}", "/merchants/#{params[:merchant_id]}/discounts/#{@invoice.top_discount.id}" %>
+    <% if @invoice.top_discount %>
+      Discount: <%= link_to "#{@invoice.top_discount.id}", "/merchants/#{params[:merchant_id]}/discounts/#{@invoice.top_discount.id}" %>
+    <% end %>
       <%= form_with url: "/merchants/#{ii.item.merchant_id}/invoices/#{@invoice.id}", method: :patch, local: true do |form| %>
       <%= form.label :ii_status, "Status: "%>
       <%= form.select :ii_status, ["packaged", "pending", "shipped"], selected: ii.status %>
