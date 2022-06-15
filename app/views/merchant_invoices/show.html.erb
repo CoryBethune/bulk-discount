@@ -6,10 +6,11 @@
 <br><br>
 <% @invoice.invoice_items.each do |ii| %>
   <% if ii.item.merchant_id == params[:merchant_id].to_i %>
+  <div id="ii-<%= ii.id %>">
     <h3><%= ii.item.name %></h3>
     Quantity: <%= ii.quantity %><br>
     Unit Price: $<%= '%.2f' % ii.item.unit_price_to_dollars %><br>
-    <div id="ii-<%= ii.id %>">
+    Discount: <%= link_to  %>
       <%= form_with url: "/merchants/#{ii.item.merchant_id}/invoices/#{@invoice.id}", method: :patch, local: true do |form| %>
       <%= form.label :ii_status, "Status: "%>
       <%= form.select :ii_status, ["packaged", "pending", "shipped"], selected: ii.status %>
@@ -21,4 +22,4 @@
 <% end %>
 
 Total Revenue: $<%= ('%.2f' % @invoice.total_revenue.fdiv(100)) %><br>
-Total Revenue with Discounts: $<%=('%.2f' % (@invoice.total_revenue.fdiv(100) - @invoice.total_revenue_discounted.fdiv(100)))%>
+Total Revenue with Discount: $<%=('%.2f' % (@invoice.total_revenue.fdiv(100) - @invoice.total_revenue_discounted.fdiv(100)))%>
