@@ -122,6 +122,7 @@ RSpec.describe "merchant's invoice show page", type: :feature do
     visit "/merchants/#{@merch1.id}/invoices/#{@invoice1.id}"
 
     within "#ii-#{@ii1.id}" do
+      expect(page).to_not have_content("#{@discount2.id}")
       click_link "#{@discount1.id}"
       expect(current_path).to eq("/merchants/#{@merch1.id}/discounts/#{@discount1.id}")
     end

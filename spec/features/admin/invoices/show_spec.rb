@@ -97,4 +97,26 @@ RSpec.describe 'Admin invoices show page' do
 
     expect(page).to have_select(:status, :selected => "completed")
   end
+
+  it "displays " do
+    @merch1 = Merchant.create!(name: 'Corys Market')
+
+    @discount1 = @merch1.discounts.create!(quantity: 10, percent_discount: 30)
+    @discount2 = @merch1.discounts.create!(quantity: 20, percent_discount: 45)
+
+    @item1 = @merch1.items.create!(name: 'Item1', description: 'This is an item.', unit_price: 10000)
+    @item2 = @merch1.items.create!(name: 'Item2', description: 'This is an item too.', unit_price: 20000)
+
+    @cust1 = Customer.create!(first_name: "Debbie", last_name: "Twolegs")
+
+    @invoice1 = @cust1.invoices.create!(status: 2)
+
+    @ii1 = InvoiceItem.create!(item_id: @item1.id, invoice_id: @invoice1.id, quantity: 10, unit_price: @item1.unit_price, status: 2)
+    @ii2 = InvoiceItem.create!(item_id: @item2.id, invoice_id: @invoice1.id, quantity: 10, unit_price: @item2.unit_price, status: 2)
+
+    visit "/admin/invoices/#{@invoice1.id}"
+
+    expect(page).to have_content("Total Revenue: $3000.00")
+    expect(page).to have_content("Total Revenue with Discount: $2100.00")
+  end
 end
