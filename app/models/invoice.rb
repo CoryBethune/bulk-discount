@@ -23,7 +23,7 @@ class Invoice < ApplicationRecord
   end
 
   def total_revenue_discounted
-    wip = invoice_items.joins(:discounts)
+    invoice_items.joins(:discounts)
                  .where('invoice_items.quantity >= discounts.quantity')
                  .select('invoice_items.id, max(invoice_items.quantity * invoice_items.unit_price * (discounts.percent_discount / 100.0)) as total_discount')
                  .group('invoice_items.id')
@@ -31,13 +31,12 @@ class Invoice < ApplicationRecord
   end
 
   def top_discount
-    wip = invoice_items.joins(:discounts)
-                 .where('invoice_items.quantity >= discounts.quantity')
-                 .select('invoice_items.id, max(invoice_items.quantity * invoice_items.unit_price * (discounts.percent_discount / 100.0)) as total_discount')
-                 .group('invoice_items.id, discounts.id')
-                 .order(total_discount: :desc)
-                 .first
-      binding.pry
+    invoice_items.joins(:discounts)
+                       .where('invoice_items.quantity >= discounts.quantity')
+                       .select('invoice_items.id, discounts.id, max(invoice_items.quantity * invoice_items.unit_price * (discounts.percent_discount / 100.0)) as total_discount')
+                       .group('invoice_items.id, discounts.id')
+                       .order(total_discount: :desc)
+                       .first
   end
 
 
